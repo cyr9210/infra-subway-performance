@@ -6,7 +6,6 @@ import nextstep.subway.member.domain.Member;
 import nextstep.subway.member.domain.MemberRepository;
 import nextstep.subway.member.dto.MemberRequest;
 import nextstep.subway.member.dto.MemberResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +40,8 @@ public class MemberService {
 
     public List<MemberResponse> getMembers(Long beforeId, int size) {
         PageRequest pagerequest = PageRequest.of(0, size);
-        Page<Member> page = memberRepository.findAll(pagerequest, beforeId);
-        return page.getContent().stream()
+        List<Member> page = memberRepository.findAll(pagerequest, beforeId);
+        return page.stream()
             .map(MemberResponse::of)
             .collect(Collectors.toList());
     }
